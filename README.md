@@ -1,20 +1,16 @@
-# *Kafka tutorial* #
+# *Kafka Configure Linux* #
 
-```shell script
-git init
-git add README.md
-git commit -m "first commit"
-git remote add origin https://github.com/lordprasun/Kafka_prasun.git
-git push -u origin master
+Get required version of kafka from https://kafka.apache.org/downloads
+We are using kafka_2.12-2.0.0 
+
+edit and source .profile
+```
+export PATH="$PATH:/home/prasun/kafka_2.12-2.0.0/bin"
 ```
 
-First create a virtual environment:
-```shell script
-apt-get install python-virtualenv
-virtualenv /home/kafka/ --no-site-packages
-```
-    
-Get required version of kafka from http://supergsego.com/apache/kafka
+(optional) Update Properties
+dataDir in config/zookeeper.properties
+log.dirs,num.partitions in config/server.properties
 
 Terminal - A: Runs Zookeper server
 ```shell script
@@ -25,45 +21,8 @@ Terminal - B: Runs kafka server
 ```shell script
 bin/kafka-server-start.sh config/server.properties
 ```
+All Set!!!
+Zookeeper should be running on port 2181
+Kafka should be running on port 9092
 
-Terminal - C: Producer Console
-Create Topic:
-```shell script
- bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
- bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test2
- bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 3 --partitions 2 --topic LJtest
-```
-
-List/Describe all Topic:
- ```shell script
- bin/kafka-topics.sh --list --zookeeper localhost:2181
- bin/kafka-topics.sh --describe --zookeeper localhost:2181 --topic test
-```
-
-Send Some message:
-```shell script
-bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
-```   
- 
-Terminal - D: Consumer Console
-```shell script
-bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test
-```
-  
-Start Multiple Producer/Brokers
-
-```text
-1. Create config/server.properties files for each broker-list
-2. Change the broker.id
-3. Change the listeners port say increment by 1(PLAINTEXT://:9093)
-4. Change log.dirs
-```
-
-
-Important Broker Configurations
-```text
-zookeper.connect
-delete.topic.enable
-log.retention.ms 
-log.retention.bytes
-```
+We work in Terminal C:
